@@ -14,7 +14,7 @@ from models.ResNet import *
 
 def run():
     # Parameters
-    num_epochs = 10
+    num_epochs = 3
     output_period = 100
     batch_size = 100
 
@@ -29,7 +29,7 @@ def run():
     criterion = nn.CrossEntropyLoss().to(device)
     # TODO: optimizer is currently unoptimized
     # there's a lot of room for improvement/different optimizers
-    optimizer = optim.SGD(model.parameters(), lr=1e-3)
+    optimizer = optim.Adam(model.parameters(), lr=1e-3)
 
     trainAccLog = []
     valAccLog = []
@@ -85,9 +85,10 @@ def run():
         trainAccLog.append((top1Correct, top5Correct, tot))
         with open('trainAcc.pkl', 'wb') as f:
             pickle.dump(trainAccLog, f)
-            print('for training: top1/5', top1Correct, top5Correct)
-        # Calculate classification error and Top-5 Error
-        # on training and validation datasets here
+            print('percent error for training: top1/5', 1-(top1Correct/(tot*1.0)), 1-top5Correct/(tot*1.0))
+        Calculate classification error and Top-5 Error
+        on training and validation datasets here
+        model.eval()
         top1Correct = 0
         top5Correct = 0
         tot = 0
@@ -107,11 +108,11 @@ def run():
         valAccLog.append((top1Correct, top5Correct, tot))
         with open('valAcc.pkl', 'wb') as f:
             pickle.dump(valAccLog, f)
-            print('for validation: top1/5', top1Correct, top5Correct)
+            print('percent error for validation: top1/5', 1-(top1Correct/(tot*1.0)), 1-top5Correct/(tot*1.0))
 
         gc.collect()
         epoch += 1
 
-print('Starting training')
+print('Starting training and validation')
 run()
-print('Training terminated')
+print('Training and validation terminated')
