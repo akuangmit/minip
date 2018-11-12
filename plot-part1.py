@@ -8,8 +8,8 @@ validAccs = defaultdict(list)
 reader = csv.DictReader(open('p1results.csv'))
 for row in reader:
     method = row['Method']
-    trainAcc = float(row['% Training'])
-    validAcc = float(row['% Validation'])
+    trainAcc = 1-float(row['% Training'])
+    validAcc = 1-float(row['% Validation'])
     trainAccs[method].append(trainAcc)
     validAccs[method].append(validAcc)
 
@@ -20,8 +20,8 @@ vbase = validAccs['Base']
 method = 'LR (0.01)'
 method = 'LR (0.0001)'
 method = 'LR/WD (0.01)'
-# method = 'Adagrad'
-# method = 'Adam'
+method = 'Adagrad'
+method = 'Adam'
 tmethod = trainAccs[method]
 vmethod = validAccs[method]
 
@@ -29,19 +29,18 @@ vmethod = validAccs[method]
 fig, ax = plt.subplots()
 index = np.arange(n_groups)
 bar_width = 0.25
-# plt.ylim([0.1,0.5])
 
-rects1 = plt.bar(index, tbase, bar_width,
+rects1 = plt.bar(index, vbase, bar_width,
                  color='b',
                  label='Base')
 
-rects2 = plt.bar(index + bar_width, tmethod, bar_width,
+rects2 = plt.bar(index + bar_width, vmethod, bar_width,
                  color='g',
                  label=method)
  
 plt.xlabel('Epochs')
-plt.ylabel('% Top-5 Correct')
-plt.title('Training Accuracies over Epochs')
+plt.ylabel('Top-5 Error')
+plt.title('Validation Error over Epochs')
 plt.xticks(index + bar_width, (1,2,3))
 plt.legend()
 
