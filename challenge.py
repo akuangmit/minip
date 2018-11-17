@@ -7,12 +7,13 @@ import torch.nn as nn
 torch.backends.cudnn.benchmark=True
 
 import dataset
-from models.AlexNet import *
-from models.ResNet import *
+# from models.AlexNet import *
+# from models.ResNet import *
+from models.AKATNet import *
 
 def run():
     # Parameters
-    num_epochs = 3
+    num_epochs = 10
     output_period = 100
     batch_size = 100
 
@@ -25,7 +26,7 @@ def run():
     epoch = 1
 
 
-    model.load_state_dict(torch.load('model.3Adam')) #we should know what this model is before calling this file
+    model.load_state_dict(torch.load('models/model.10')) #we should know what this model is before calling this file
     model.eval()
 
     # Calculate classification error and Top-5 Error
@@ -43,7 +44,7 @@ def run():
         for i in range(batch_size):
             lineArray = []
             filePathNumber+=1
-            filePath = str(filePathNumber).zfill(8)+".jpg"
+            filePath = 'test+/'+str(filePathNumber).zfill(8)+".jpg"
             lineArray.append(filePath)
             curr = prediction[i].unsqueeze(1)
             _, cls5 = torch.topk(curr, 5, dim=0)
@@ -56,7 +57,7 @@ def run():
             tot += 1
             line = " ".join(lineArray)+"\n"
             if filePathNumber==10000:
-                line = " ".join(lineArray)
+                line = " ".join(lineArray) #don't append the "\n"
             f.write(line)
     print('top 5 percent error for testset:', 1-(top5Correct/(tot*1.0)))
     gc.collect()

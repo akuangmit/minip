@@ -9,12 +9,13 @@ import torch.optim.lr_scheduler
 torch.backends.cudnn.benchmark=True
 
 import dataset
-from models.AlexNet import *
+# from models.AlexNet import *
 from models.ResNet import *
+#from models.AKATNet import *
 
 def run():
     # Parameters
-    num_epochs = 3
+    num_epochs = 10
     output_period = 100
     batch_size = 100
 
@@ -29,7 +30,10 @@ def run():
     criterion = nn.CrossEntropyLoss().to(device)
     # TODO: optimizer is currently unoptimized
     # there's a lot of room for improvement/different optimizers
-    optimizer = optim.Adam(model.parameters(), lr=1e-3)
+    # optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-2)
+    # optimizer = optim.Adagrad(model.parameters(), lr=1e-3, weight_decay=1e-2)
+    # optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-3)
+    optimizer = optim.SGD(model.parameters(), lr=1e-3);
 
     trainAccLog = []
     valAccLog = []
@@ -63,6 +67,7 @@ def run():
         gc.collect()
         # save after every epoch
         torch.save(model.state_dict(), "models/model.%d" % epoch)
+        epoch+=1
         
 print('Starting training')
 run()
