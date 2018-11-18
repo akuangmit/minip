@@ -86,8 +86,8 @@ def run():
         with open('trainAcc.pkl', 'wb') as f:
             pickle.dump(trainAccLog, f)
             print('percent error for training: top1/5', 1-(top1Correct/(tot*1.0)), 1-top5Correct/(tot*1.0))
-        Calculate classification error and Top-5 Error
-        on training and validation datasets here
+        # Calculate classification error and Top-5 Error
+        # on training and validation datasets here
         model.eval()
         top1Correct = 0
         top5Correct = 0

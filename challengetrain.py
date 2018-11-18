@@ -10,8 +10,8 @@ torch.backends.cudnn.benchmark=True
 
 import dataset
 # from models.AlexNet import *
-from models.ResNet import *
-#from models.AKATNet import *
+# from models.ResNet import *
+from models.AKATNet import *
 
 def run():
     # Parameters
@@ -33,7 +33,8 @@ def run():
     # optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-2)
     # optimizer = optim.Adagrad(model.parameters(), lr=1e-3, weight_decay=1e-2)
     # optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-3)
-    optimizer = optim.SGD(model.parameters(), lr=1e-3);
+    # optimizer = optim.SGD(model.parameters(), lr=1e-3);
+    optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-2);
 
     trainAccLog = []
     valAccLog = []
