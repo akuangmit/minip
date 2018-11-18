@@ -9,8 +9,6 @@ import torch.optim.lr_scheduler
 torch.backends.cudnn.benchmark=True
 
 import dataset
-# from models.AlexNet import *
-# from models.ResNet import *
 from models.AKATNet import *
 
 def run():
@@ -28,8 +26,6 @@ def run():
     num_train_batches = len(train_loader)
 
     criterion = nn.CrossEntropyLoss().to(device)
-    # TODO: optimizer is currently unoptimized
-    # there's a lot of room for improvement/different optimizers
     # optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-2)
     # optimizer = optim.Adagrad(model.parameters(), lr=1e-3, weight_decay=1e-2)
     # optimizer = optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-3)
@@ -69,7 +65,7 @@ def run():
         # save after every epoch
         torch.save(model.state_dict(), "models/model.%d" % epoch)
         epoch+=1
-        
+
 print('Starting training')
 run()
 print('Training terminated')

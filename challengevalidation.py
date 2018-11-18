@@ -7,8 +7,6 @@ import torch.nn as nn
 torch.backends.cudnn.benchmark=True
 
 import dataset
-# from models.AlexNet import *
-# from models.ResNet import *
 from models.AKATNet import *
 
 def run():
@@ -22,15 +20,15 @@ def run():
     model = resnet_18()
     model = model.to(device)
 
-    val_loader, test_loader = dataset.get_val_test_loaders(batch_size)
+    val_loader, _ = dataset.get_val_test_loaders(batch_size)
     epoch = 1
 
-
-    model.load_state_dict(torch.load('models/trialTwo/model.10')) #we should know what this model is before calling this file
+    # run validation on different models (USER INPUT)
+    model.load_state_dict(torch.load('models/trialTwo/model.10'))
     model.eval()
 
     # Calculate classification error and Top-5 Error
-    # on training and validation datasets here
+    # on validation dataset here
     top5Correct = 0
     tot = 0
     for batch_num, (inputs, labels) in enumerate(val_loader, 1):
@@ -47,7 +45,7 @@ def run():
             if labels[i] in cls5:
                 top5Correct += 1
             tot += 1
-    print('top 5 percent error for validationset:', 1-(top5Correct/(tot*1.0)))
+    print('top 5 percent error for validation set:', 1-(top5Correct/(tot*1.0)))
     gc.collect()
 
 print('Starting challenge')
